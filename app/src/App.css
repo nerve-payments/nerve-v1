@@ -1,0 +1,94 @@
+:root {
+  --royal-purple: #7c01ff;
+  --win-green: #00d77d;
+}
+
+.App {
+  /*text-align: center;*/
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  background-color: #000;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.home-view {
+  padding: 5%;
+}
+
+.select-block {
+  height: 70px;
+  width: 70px;
+  border: 2px solid #2f85af;
+  border-radius: 10px;
+  background-color: #000000;
+  padding: 10px;
+  text-align: center;
+  box-shadow: rgba(67, 185, 242, 0.62) 0px 6px 12px -2px, rgba(67, 185, 242, 0.62) 0px 3px 7px -3px;
+}
+
+.select-block:hover {
+  height: 75px;
+  width: 75px;
+  padding: 12.5px;
+  box-shadow: rgba(67, 185, 242, 0.62) 0px 14px 28px, rgba(67, 185, 242, 0.62) 0px 10px 10px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.horizontal-row {
+  display: flex;
+  align-items: center;
+}
+
+.gradient-button {
+  background: radial-gradient(circle at 0 105%,var(--royal-purple),var(--win-green));
+  color: #fff;
+  width: 100px;
+  height: 50px;
+  border: 10px;
+}
+
+.gradient-button:hover, .gradient-button:active {
+  transition: 0.8s;
+  background: radial-gradient(circle at 0 105%,var(--win-green),var(--royal-purple));
+}
+
+.vertical-div {
+  display: flex;
+  flex-direction: column;
+}
