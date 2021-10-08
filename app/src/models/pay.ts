@@ -1,3 +1,11 @@
+export interface PaymentModel {
+    blockchain: string,
+    wallet: string,
+    coin: string,
+    toAccount?: string,
+    fromAccount?: string,
+    amount?: number
+}
 export {}
 // import { BN } from "@project-serum/anchor";
 // import { TOKEN_PROGRAM_ID } from "@solana/spl-token";

@@ -1,7 +1,6 @@
 import {SelectOptions} from "./SelectOptions";
-import {useState} from "react";
 import React, { FC, useMemo } from 'react';
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import {ConnectionProvider, WalletProvider} from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
     getLedgerWallet,
@@ -13,9 +12,7 @@ import {
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import {
-    WalletModalProvider,
-    WalletDisconnectButton,
-    WalletMultiButton
+    WalletModalProvider
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 import { SelectCoin } from "./SelectCoin";
@@ -34,7 +31,7 @@ export const SelectWallet: FC = () => {
 
     // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
     // Only the wallets you configure here will be compiled into your application
-    const wallets = useMemo(() => [
+    const walletOptions = useMemo(() => [
         getPhantomWallet(),
         getSlopeWallet(),
         getSolflareWallet(),
@@ -45,13 +42,12 @@ export const SelectWallet: FC = () => {
         getSolletWallet({ network }),
         getSolletExtensionWallet({ network }),
     ], [network]);
-
+    const blocks = ["Phantom", "Sollet", "Solong", "Solflare"];
     return (
         <ConnectionProvider endpoint={endpoint}>
-            <WalletProvider wallets={wallets} autoConnect>
+            <WalletProvider wallets={walletOptions} autoConnect>
                 <WalletModalProvider>
-                    <WalletMultiButton />
-                    <WalletDisconnectButton />
+                    <SelectOptions heading={"Select Wallet"} blocks={blocks} />
                     <SelectCoin />
                     <Divider />
                     <div>
@@ -60,7 +56,23 @@ export const SelectWallet: FC = () => {
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>
-    );
+    )
+
+    // return (
+    //     <ConnectionProvider endpoint={endpoint}>
+    //         <WalletProvider wallets={wallets} autoConnect>
+    //             <WalletModalProvider>
+    //                 <WalletMultiButton />
+    //                 <WalletDisconnectButton />
+    //                 <SelectCoin />
+    //                 <Divider />
+    //                 <div>
+    //                     <Button onClick={() => payMerchant()} className={"gradient-button"}>Pay</Button>
+    //                 </div>
+    //             </WalletModalProvider>
+    //         </WalletProvider>
+    //     </ConnectionProvider>
+    // );
 };
 
 // export const SelectWallet = () => {

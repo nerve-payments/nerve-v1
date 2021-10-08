@@ -61,12 +61,16 @@
   box-shadow: rgba(67, 185, 242, 0.62) 0px 6px 12px -2px, rgba(67, 185, 242, 0.62) 0px 3px 7px -3px;
 }
 
+.selected-block {
+  background: radial-gradient(circle at 0 105%,var(--royal-purple),var(--win-green));
+}
+
 .select-block:hover {
   height: 75px;
   width: 75px;
   padding: 12.5px;
   box-shadow: rgba(67, 185, 242, 0.62) 0px 14px 28px, rgba(67, 185, 242, 0.62) 0px 10px 10px;
-  transition: 0.4s;
+  transition: 0.2s;
   cursor: pointer;
 }
 
