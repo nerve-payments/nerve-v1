@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@project-serum/anchor": "^0.17.1-beta.1",
+    "@project-serum/anchor": "^0.17.0",
     "@pythnetwork/client": "^2.3.2",
     "@reduxjs/toolkit": "^1.6.2",
     "@solana/spl-token": "^0.1.8",

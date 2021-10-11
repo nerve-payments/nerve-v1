@@ -7,7 +7,6 @@ import { Amount } from '../constants/utils';
 import { WalletContextState } from '@solana/wallet-adapter-react';
 
 let program: anchor.Program | null;
-let depositSourceKeypair: Keypair | undefined;
 // Deposit
 export const pay = async (wallet: WalletContextState, connection: Connection, lamports: BN)
   : Promise<[ok: boolean, txid: string | undefined]> => {
