@@ -1,5 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 export const initialState = {
+    amount: 653,
+    merchant: "Shashwat Football"
 } as any;
 
 const paymentReducer = createSlice({
