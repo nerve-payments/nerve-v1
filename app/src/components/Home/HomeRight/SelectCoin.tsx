@@ -4,7 +4,7 @@ import {SelectOptions} from "./SelectOptions";
 export const SelectCoin = () => {
     const { connection } = useConnection();
     const wallet = useWallet();
-    const pythConnection = new PythConnection(connection, getPythProgramKeyForCluster("devnet"))
+    // const pythConnection = new PythConnection(connection, getPythProgramKeyForCluster("devnet"))
     // pythConnection.onPriceChange((product, price) => {
     // // sample output:
     // // SRM/USD: $8.68725 ±$0.0131

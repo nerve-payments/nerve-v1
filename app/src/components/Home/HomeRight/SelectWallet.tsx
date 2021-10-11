@@ -1,6 +1,6 @@
 import {SelectOptions} from "./SelectOptions";
 import React, { FC, useMemo } from 'react';
-import {ConnectionProvider, useConnection, useWallet, WalletProvider} from '@solana/wallet-adapter-react';
+import {ConnectionProvider, WalletProvider} from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
     getLedgerWallet,
@@ -16,9 +16,7 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 import { SelectCoin } from "./SelectCoin";
-import { Button, Divider } from "antd";
-import { payMerchant } from "../../../txns/payMerchant";
-import { PayButton } from "../../Common/PayButton";
+import { Divider } from "antd";
 import { useAppSelector } from "../../../store/hooks";
 import { Payment } from "./Payment";
 

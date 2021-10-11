@@ -30,7 +30,7 @@ export const getTokenAccountAndSubscribe = async function (
 ): Promise<number> {
   return await getAccountInfoAndSubscribe(connection, publicKey, (account, context) => {
     if (account != null) {
-      if(account.data.length != 165){
+      if(account.data.length !== 165){
         console.log('account data length', account.data.length);
       }
       const decoded = parseTokenAccount(account, publicKey);
@@ -213,7 +213,7 @@ export const sendAllTransactions = async (
   const recentBlockhash = await provider.connection.getRecentBlockhash();
   const txs: Transaction[] = [];
   for (const tx of transactions) {
-    if (tx.ix.length == 0) {
+    if (tx.ix.length === 0) {
       continue;
     }
     let transaction = new Transaction();
@@ -298,8 +298,8 @@ export const parseTokenAccount = (account: AccountInfo<Buffer>, accountPubkey: P
       amount: new BN(data.amount, undefined, "le"),
       delegate: (data as any).delegateOption ? new PublicKey(data.delegate!) : null,
       delegatedAmount: new BN(data.delegatedAmount, undefined, "le"),
-      isInitialized: (data as any).state != 0,
-      isFrozen: (data as any).state == 2,
+      isInitialized: (data as any).state !== 0,
+      isFrozen: (data as any).state === 2,
       isNative: !!(data as any).isNativeOption,
       rentExemptReserve: new BN(0, undefined, "le"), //  Todo: calculate. I believe this is lamports minus rent for wrapped sol
       closeAuthority: (data as any).closeAuthorityOption ? new PublicKey(data.closeAuthority!) : null,
