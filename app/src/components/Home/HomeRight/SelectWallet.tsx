@@ -19,6 +19,8 @@ import { SelectCoin } from "./SelectCoin";
 import { Button, Divider } from "antd";
 import { payMerchant } from "../../../txns/payMerchant";
 import { PayButton } from "../../Common/PayButton";
+import { useAppSelector } from "../../../store/hooks";
+import { Payment } from "./Payment";
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -45,6 +47,10 @@ export const SelectWallet: FC = () => {
     ], [network]);
 
     const blocks = ["Phantom", "Sollet", "Solong", "Solflare"];
+    const paymentOptions = useAppSelector(state => state.payment);
+    if(!paymentOptions.blockchain) {
+        return null;
+    }
     return (
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={walletOptions} autoConnect>
@@ -52,7 +58,7 @@ export const SelectWallet: FC = () => {
                     <SelectOptions heading={"Select Wallet"} blocks={blocks} />
                     <SelectCoin />
                     <Divider />
-                    <PayButton />
+                    <Payment />
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>

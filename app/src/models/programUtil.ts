@@ -3,7 +3,6 @@ import * as anchor from "@project-serum/anchor";
 import { MintInfo, MintLayout, AccountInfo as TokenAccountInfo, AccountLayout as TokenAccountLayout } from "@solana/spl-token";
 import { AccountInfo, Commitment, Connection, Context, PublicKey, Signer, Transaction, TransactionInstruction } from "@solana/web3.js";
 import { Buffer } from "buffer";
-import type { HasPublicKey, ToBytes } from "../constants/nerveTypes";
 import { TokenAmount } from "../constants/utils";
 import { inDevelopment } from "./nerve";
 
@@ -11,123 +10,6 @@ import { inDevelopment } from "./nerve";
 
 export const SOL_DECIMALS = 9;
 export const NULL_PUBKEY = new PublicKey("11111111111111111111111111111111");
-
-// Find PDA addresses
-/** Find market authority. */
-export const findMarketAuthorityAddress = async (program: anchor.Program, market: PublicKey)
-  : Promise<[marketAuthorityPubkey: PublicKey, marketAuthorityBump: number]> => {
-  return findProgramAddress(
-    program.programId,
-    [market.toBuffer()]
-  );
-};
-
-/** Find reserve deposit note mint. */
-export const findDepositNoteMintAddress = async (program: anchor.Program, reserve: PublicKey, reserveTokenMint: PublicKey)
-  : Promise<[depositNoteMintPubkey: PublicKey, depositNoteMintBump: number]> => {
-  return await findProgramAddress(
-    program.programId,
-    ["deposits", reserve, reserveTokenMint],
-  );
-};
-
-/** Find reserve loan note mint. */
-export const findLoanNoteMintAddress = async (program: anchor.Program, reserve: PublicKey, reserveTokenMint: PublicKey)
-  : Promise<[loanNoteMintPubkey: PublicKey, loanNoteMintBump: number]> => {
-  return await findProgramAddress(
-    program.programId,
-    ["loans", reserve, reserveTokenMint]
-  );
-};
-
-/** Find reserve deposit note destination account for wallet. */
-export const findDepositNoteDestAddress = async (program: anchor.Program, reserve: PublicKey, wallet: PublicKey)
-  : Promise<[depositNoteDestPubkey: PublicKey, depositNoteDestBump: number]> => {
-  return await findProgramAddress(
-    program.programId,
-    [reserve, wallet]
-  );
-};
-
-/** Find reserve vault token account. */
-export const findVaultAddress = async (program: anchor.Program, market: PublicKey, reserve: PublicKey)
-  : Promise<[vaultPubkey: PublicKey, vaultBump: number]> => {
-  return await findProgramAddress(
-    program.programId,
-    [market, reserve]
-  );
-};
-
-export const findFeeNoteVault = async (program: anchor.Program, reserve: PublicKey)
-  : Promise<[feeNoteVaultPubkey: PublicKey, feeNoteVaultBump: number]> => {
-  return await findProgramAddress(program.programId, [
-    "fee-vault",
-    reserve,
-  ]);
-};
-
-/** Find reserve deposit note account for wallet */
-export const findDepositNoteAddress = async (program: anchor.Program, reserve: PublicKey, wallet: PublicKey)
-  : Promise<[depositNotePubkey: PublicKey, depositAccountBump: number]> => {
-  return await findProgramAddress(
-    program.programId,
-    ["deposits", reserve, wallet]
-  );
-};
-
-/** 
- * Find the obligation for the wallet.
- */
-export const findObligationAddress = async (program: anchor.Program, market: PublicKey, wallet: PublicKey)
-  : Promise<[obligationPubkey: PublicKey, obligationBump: number]> => {
-  return await findProgramAddress(
-    program.programId,
-    ["obligation", market, wallet]
-  );
-};
-
-/** Find loan note token account for the reserve, obligation and wallet. */
-export const findLoanNoteAddress = async (program: anchor.Program, reserve: PublicKey, obligation: PublicKey, wallet: PublicKey)
-  : Promise<[loanNotePubkey: PublicKey, loanNoteBump: number]> => {
-  return await findProgramAddress(
-    program.programId,
-    ["loan", reserve, obligation, wallet]
-  );
-};
-
-/** Find collateral account for the reserve, obligation and wallet. */
-export const findCollateralAddress = async (program: anchor.Program, reserve: PublicKey, obligation: PublicKey, wallet: PublicKey)
-  : Promise<[collateralPubkey: PublicKey, collateralBump: number]> => {
-  return await findProgramAddress(
-    program.programId,
-    ["collateral", reserve, obligation, wallet]
-  );
-};
-
-/**
- * Find a program derived address
- * @param programId The program the address is being derived for
- * @param seeds The seeds to find the address
- * @returns The address found and the bump seed required
- */
-export const findProgramAddress = async (
-  programId: PublicKey,
-  seeds: (HasPublicKey | ToBytes | Uint8Array | string)[]
-): Promise<[PublicKey, number]> => {
-  const seed_bytes = seeds.map((s) => {
-    if (typeof s == "string") {
-      return new TextEncoder().encode(s);
-    } else if ("publicKey" in s) {
-      return s.publicKey.toBytes();
-    } else if ("toBytes" in s) {
-      return s.toBytes();
-    } else {
-      return s;
-    }
-  });
-
-  return await anchor.web3.PublicKey.findProgramAddress(seed_bytes, programId);
-};
 
 /**
  * Fetch an account for the specified public key and subscribe a callback
@@ -429,26 +311,3 @@ export const parseTokenAccount = (account: AccountInfo<Buffer>, accountPubkey: P
 export const parseU192 = (data: Buffer | number[]) => {
   return new BN(data, undefined, "le");
 };
-
-/**
- * Convert some object of fields with address-like values,
- * such that the values are converted to their `PublicKey` form.
- * @param obj The object to convert
- */
-export function toPublicKeys(obj: Record<string, string | PublicKey | HasPublicKey>): Record<string, PublicKey> {
-  const newObj: Record<string, PublicKey> = {};
-
-  for (const key in obj) {
-    const value = obj[key];
-
-    if (typeof value == "string") {
-      newObj[key] = new PublicKey(value);
-    } else if ('publicKey' in value) {
-      newObj[key] = value.publicKey;
-    } else {
-      newObj[key] = value;
-    }
-  }
-
-  return newObj;
-}

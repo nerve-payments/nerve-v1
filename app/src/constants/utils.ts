@@ -1,42 +1,26 @@
 import {AnyAction, ThunkDispatch} from "@reduxjs/toolkit";
-import {PaymentModel} from "../models/pay";
-import {BLOCK_TO_TYPE, BLOCKCHAIN, COIN, WALLET} from "./fixedData";
+import {PaymentModel} from "../constants/nerveTypes";
+import {BLOCK_TO_TYPE, OPTIONS} from "./nerveTypes";
 import {selectBlockchain, selectCoin, selectWallet} from "../store/reducers/paymentReducer";
 
 import { BN } from '@project-serum/anchor';
 import type { AccountInfo as TokenAccountInfo, MintInfo, u64 } from '@solana/spl-token';
-import type { Market, AssetStore, Obligation } from '../constants/nerveTypes';
 
 export const handleBlockClick = (dispatch: ThunkDispatch<{payment: PaymentModel}, null, AnyAction>, data: string) => {
     switch (BLOCK_TO_TYPE[data]){
-        case BLOCKCHAIN:
+        case OPTIONS.BLOCKCHAIN:
             dispatch(selectBlockchain(data));
             break;
-        case COIN:
+        case OPTIONS.COIN:
             dispatch(selectCoin(data));
             break;
-        case WALLET:
+        case OPTIONS.WALLET:
             dispatch(selectWallet(data));
             break;
         default:
             break;
     }
 }
-
-let wallet: any;
-let market: Market | null;
-let assets: AssetStore | null;
-// WALLET.subscribe(data => wallet = data);
-// MARKET.subscribe(data => market = data);
-// ASSETS.subscribe(data => assets = data);
-
-// If user's browser has dark theme preference, set app to dark theme right on init
-export const initDarkTheme = () => {
-  let darkTheme: boolean = localStorage.getItem('jetDark') === 'true';
-  if (darkTheme) {
-    setDark(true);
-  }
-};
 
 // Toggle dark theme root CSS attributes
 export const setDark = (darkTheme: boolean): void => {
@@ -103,43 +87,6 @@ export const timeout = (ms: number): Promise<boolean> => {
   });
 };
 
-// Calculate total value of deposits and borrowings, as well as c-ratio
-export const getObligationData = (): Obligation => {
-  let depositedValue: number = 0;
-  let borrowedValue: number = 0;
-  let colRatio = 0;
-  let utilizationRate = 0;
-
-  if (!assets || !market) {
-    return {
-      depositedValue,
-      borrowedValue,
-      colRatio,
-      utilizationRate
-    }
-  }
-
-  for (let t in assets.tokens) {
-    depositedValue += new TokenAmount(
-      assets.tokens[t].collateralBalance.amount,
-      market.reserves[t].decimals
-    ).uiAmountFloat * market.reserves[t].price;
-    borrowedValue += new TokenAmount(
-      assets.tokens[t].loanBalance.amount,
-      market.reserves[t].decimals
-    ).uiAmountFloat * market.reserves[t].price;
-
-    colRatio = borrowedValue ? depositedValue / borrowedValue : 0;
-    utilizationRate = depositedValue ? borrowedValue / depositedValue : 0;
-  }
-
-  return {
-    depositedValue,
-    borrowedValue,
-    colRatio,
-    utilizationRate
-  }
-};
 
 // Token Amounts
 export class TokenAmount {
