@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@pythnetwork/client": "^2.3.2",
     "@reduxjs/toolkit": "^1.6.2",
     "@solana/spl-token": "^0.1.8",
     "@solana/wallet-adapter-base": "^0.6.0",

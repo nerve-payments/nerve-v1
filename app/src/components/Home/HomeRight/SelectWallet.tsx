@@ -1,6 +1,6 @@
 import {SelectOptions} from "./SelectOptions";
 import React, { FC, useMemo } from 'react';
-import {ConnectionProvider, WalletProvider} from '@solana/wallet-adapter-react';
+import {ConnectionProvider, useConnection, useWallet, WalletProvider} from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
     getLedgerWallet,
@@ -18,6 +18,7 @@ import { clusterApiUrl } from '@solana/web3.js';
 import { SelectCoin } from "./SelectCoin";
 import { Button, Divider } from "antd";
 import { payMerchant } from "../../../txns/payMerchant";
+import { PayButton } from "../../Common/PayButton";
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -42,6 +43,7 @@ export const SelectWallet: FC = () => {
         getSolletWallet({ network }),
         getSolletExtensionWallet({ network }),
     ], [network]);
+
     const blocks = ["Phantom", "Sollet", "Solong", "Solflare"];
     return (
         <ConnectionProvider endpoint={endpoint}>
@@ -50,35 +52,9 @@ export const SelectWallet: FC = () => {
                     <SelectOptions heading={"Select Wallet"} blocks={blocks} />
                     <SelectCoin />
                     <Divider />
-                    <div>
-                        <Button onClick={() => payMerchant()} className={"gradient-button"}>Pay</Button>
-                    </div>
+                    <PayButton />
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>
     )
-
-    // return (
-    //     <ConnectionProvider endpoint={endpoint}>
-    //         <WalletProvider wallets={wallets} autoConnect>
-    //             <WalletModalProvider>
-    //                 <WalletMultiButton />
-    //                 <WalletDisconnectButton />
-    //                 <SelectCoin />
-    //                 <Divider />
-    //                 <div>
-    //                     <Button onClick={() => payMerchant()} className={"gradient-button"}>Pay</Button>
-    //                 </div>
-    //             </WalletModalProvider>
-    //         </WalletProvider>
-    //     </ConnectionProvider>
-    // );
 };
-
-// export const SelectWallet = () => {
-//     const blocks = ["Phantom", "Sollet", "Solong", "Solflare"];
-//     const [selectedBlock, setSelectedBlock] = useState("");
-//     return (
-//         <SelectOptions heading={"Select Wallet"} blocks={blocks} />
-//     )
-// }
