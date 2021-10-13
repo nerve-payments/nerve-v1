@@ -22,6 +22,7 @@ export const pay = async (wallet: WalletContextState, connection: Connection, la
     let depositSource = new PublicKey("EanfM1a9wtbVEpwg4jFgTeMBUSrrfLM1MixRH4bvoHgy");
     let merchantAccount = new PublicKey("4xeQdtMjHE1MtynEXs6tfGUUL9sCS6WQGc5sUtrTueoA");
     const amount = Amount.tokens(lamports);
+    // @ts-ignore
     const payMerchantIx = program.instruction.payMerchant(amount, {
         accounts: {
             payerAccount: payerAccount,

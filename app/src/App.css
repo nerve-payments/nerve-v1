@@ -9,6 +9,10 @@
   color: #fff;
   font-family: 'Poppins', sans-serif;
   background-color: #000;
+  background-image: url("./assets/bg.svg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .App-logo {
@@ -114,3 +118,16 @@
   height: 20vh !important;
   width: 50vw !important;
 }
+
+.background-card {
+  width: 80vw;
+  min-height: 75vh;
+  margin: auto;
+  padding: 40px;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, .1);
+  backdrop-filter: blur(5px);
+  box-shadow: rgba(67, 185, 242, 0.62) 0px 0px 68px, rgba(67, 185, 242, 0.62) 0px 0px 0px;
+}
+
